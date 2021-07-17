@@ -9,10 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static paginate()
+ * @method static create(array $validated)
+ * @method static find(int $id)
  */
 class Department extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+      'name'
+    ];
 
     public function worker(): BelongsToMany
     {

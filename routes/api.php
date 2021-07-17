@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::resource('departments', DepartmentController::class);
+Route::resource('departments', DepartmentController::class);
 
