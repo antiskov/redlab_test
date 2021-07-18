@@ -6,7 +6,8 @@ use App\Http\Requests\DepartmentRequest;
 use App\Http\Resources\DepartmentCollection;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
@@ -48,7 +49,7 @@ class DepartmentController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return DepartmentResource
      */
     public function show($id)
     {
@@ -58,24 +59,26 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  $id
+     * @return DepartmentResource
      */
-    public function edit($id)
+    public function edit($id): DepartmentResource
     {
-        //
+        $department = Department::findOrFail($id);
+
+        return new DepartmentResource($department);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
+     * @param DepartmentRequest $request
+     * @param $id
      * @return DepartmentResource
      */
-    public function update(DepartmentRequest $request, $id)
+    public function update(DepartmentRequest $request, $id): DepartmentResource
     {
-        $department = Department::find($id);
+        $department = Department::findOrFail($id);
         $department->update($request->validated());
 
         return new DepartmentResource($department);
@@ -84,11 +87,19 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  $id
+     * @return DepartmentResource|Application|ResponseFactory|Response
      */
-    public function destroy($id)
+    public function destroy($id): Response|DepartmentResource|Application|ResponseFactory
     {
-        //
+        $department = Department::findOrFail($id)->with('workers')->first();
+
+        if($department->workers->isEmpty()){
+            $department->delete();
+
+            return new DepartmentResource($department);
+        }
+
+        return \response('Department must have not workers for deleting', 422);
     }
 }

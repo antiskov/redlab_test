@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static paginate()
  * @method static create(array $validated)
  * @method static find(int $id)
+ * @method static findOrFail($id)
  */
 class Department extends Model
 {
@@ -20,7 +21,7 @@ class Department extends Model
       'name'
     ];
 
-    public function worker(): BelongsToMany
+    public function workers(): BelongsToMany
     {
         return $this->belongsToMany(Worker::class);
     }
