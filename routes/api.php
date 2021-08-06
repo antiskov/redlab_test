@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\WorkerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('departments', DepartmentController::class);
-
+Route::resource('workers', WorkerController::class);

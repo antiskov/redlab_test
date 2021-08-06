@@ -17,9 +17,9 @@ class Department extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-      'name'
-    ];
+    protected $fillable = array(
+        'name'
+    );
 
     public function workers(): BelongsToMany
     {

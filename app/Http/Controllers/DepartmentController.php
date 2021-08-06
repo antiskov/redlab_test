@@ -8,7 +8,6 @@ use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class DepartmentController extends Controller
@@ -42,6 +41,7 @@ class DepartmentController extends Controller
     public function store(DepartmentRequest $request): DepartmentResource
     {
         $department = Department::create($request->validated());
+
         return new DepartmentResource($department);
     }
 
